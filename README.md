@@ -38,5 +38,3 @@ If SmartScreen warning appears:
 
 1. `More info`
 2. `Run anyway`
-
-Best long-term fix: release with code-signing certificate.
