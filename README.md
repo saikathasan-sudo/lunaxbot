@@ -21,7 +21,7 @@ This repository is used for publishing Windows installer files.
 1. Open PowerShell
 2. Run:
    ```powershell
-   irm https//lunaxbot.vercela.pp/install | iex
+   irm https//lunaxbot.vercela.app/install | iex
    ```
 3. Confirm Y/N
 4. Let installer complete
