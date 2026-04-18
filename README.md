@@ -1,43 +1,42 @@
-# LunaxBot Releases
+# LunaxBot Release Guide
 
-Official Windows installer release repository for LunaxBot.
+This repository is used for publishing Windows installer files.
 
-## Install (PowerShell, one line)
-
-```powershell
-irm https://lunaxbot.vercel.app/install | iex
-```
-
-The installer script is served from `https://lunaxbot.vercel.app/install` and will:
-
-1. Show source URL, destination path, and a trust warning
-2. Ask for explicit user confirmation
-3. Download `LunaxBotSetup.exe`
-4. Download `LunaxBotSetup.exe.sha256`
-5. Verify checksum before execution
-6. Run normal visible installer UI
-7. Launch app after setup
-
-## Release assets required
-
-Every release must include both files:
+## Required files per release
 
 - `LunaxBotSetup.exe`
 - `LunaxBotSetup.exe.sha256`
 
-Checksum generation:
+## How users can install
+
+### Option A: Direct EXE
+
+1. Download `LunaxBotSetup.exe`
+2. Double click installer
+3. Follow setup UI
+4. Launch app
+
+### Option B: PowerShell installer
+
+1. Open PowerShell
+2. Run:
+   ```powershell
+   irm <your-install-endpoint>/install | iex
+   ```
+3. Confirm Y/N
+4. Let installer complete
+
+## Create checksum
 
 ```powershell
-Get-FileHash .\release\LunaxBotSetup.exe -Algorithm SHA256 | ForEach-Object { "$($_.Hash)  LunaxBotSetup.exe" } | Out-File -Encoding ascii .\release\LunaxBotSetup.exe.sha256
+Get-FileHash .\LunaxBotSetup.exe -Algorithm SHA256 | ForEach-Object { "$($_.Hash)  LunaxBotSetup.exe" } | Out-File -Encoding ascii .\LunaxBotSetup.exe.sha256
 ```
 
-## Repositories
+## SmartScreen
 
-- Web/backend source (Vercel): [`saikathasan-sudo/lunaxbot-web`](https://github.com/saikathasan-sudo/lunaxbot-web)
-- Release assets: [`saikathasan-sudo/lunaxbot`](https://github.com/saikathasan-sudo/lunaxbot)
+If SmartScreen warning appears:
 
-## Security notes
+1. `More info`
+2. `Run anyway`
 
-- Installer integrity is enforced with SHA256 verification.
-- App package uses ASAR + scoped obfuscation + runtime checks.
-- If backend attestation secrets are enabled, non-official patched clients are blocked from config/heartbeat APIs.
+Best long-term fix: release with code-signing certificate.
